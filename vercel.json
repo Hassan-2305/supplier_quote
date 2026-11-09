@@ -1,0 +1,11 @@
+{
+  "redirects": [
+    { "source": "/", "destination": "/apply", "permanent": false }
+  ],
+  "rewrites": [
+    { "source": "/apply", "destination": "/apply.html" },
+    { "source": "/s/:token", "destination": "/apply.html" },
+    { "source": "/e/:token", "destination": "/apply.html" },
+    { "source": "/admin", "destination": "/admin.html" }
+  ]
+}

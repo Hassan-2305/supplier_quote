@@ -63,24 +63,42 @@
     if (file.size > state.cfg.uploads.maxFileSizeMB * 1048576) return `${file.name} is larger than ${state.cfg.uploads.maxFileSizeMB} MB`;
     return null;
   }
-  function uploadFile(file, kind, onProgress) {
+  // Send a request with upload progress (XHR, because fetch has no upload progress).
+  function xhrSend(method, url, body, headers, onProgress) {
     return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open(method, url);
+      Object.entries(headers || {}).forEach(([k, v]) => xhr.setRequestHeader(k, v));
+      xhr.upload.onprogress = (e) => e.lengthComputable && onProgress && onProgress(e.loaded / e.total);
+      xhr.onload = () => {
+        let parsed = {};
+        try { parsed = JSON.parse(xhr.responseText); } catch {}
+        if (xhr.status >= 200 && xhr.status < 300) resolve(parsed); else reject(new Error(parsed.error || parsed.message || 'Upload failed'));
+      };
+      xhr.onerror = () => reject(new Error('Upload failed - check your connection'));
+      xhr.send(body);
+    });
+  }
+
+  // Online the file goes straight to cloud storage via a one-time signed URL
+  // (so large catalogues don't pass through the server); locally it's a normal POST.
+  async function uploadFile(file, kind, onProgress) {
+    state.uploads++;
+    try {
+      if (state.cfg.uploads.direct) {
+        const signed = await api('/api/files/sign', { method: 'POST', json: { name: file.name, size: file.size, type: file.type, kind } });
+        if (signed.direct) {
+          await xhrSend('PUT', signed.uploadUrl, file, { 'Content-Type': file.type || 'application/octet-stream', 'x-upsert': 'true' }, onProgress);
+          return await api(`/api/files/${encodeURIComponent(signed.id)}/complete`, { method: 'POST', json: {} });
+        }
+      }
       const fd = new FormData();
       fd.append('kind', kind);
       fd.append('file', file);
-      const xhr = new XMLHttpRequest();
-      xhr.open('POST', '/api/files');
-      xhr.upload.onprogress = (e) => e.lengthComputable && onProgress && onProgress(e.loaded / e.total);
-      xhr.onload = () => {
-        let body = {};
-        try { body = JSON.parse(xhr.responseText); } catch {}
-        if (xhr.status >= 200 && xhr.status < 300) resolve(body); else reject(new Error(body.error || 'Upload failed'));
-      };
-      xhr.onerror = () => reject(new Error('Upload failed - check your connection'));
-      state.uploads++;
-      xhr.onloadend = () => { state.uploads--; };
-      xhr.send(fd);
-    });
+      return await xhrSend('POST', '/api/files', fd, null, onProgress);
+    } finally {
+      state.uploads--;
+    }
   }
   function wireDropzone(zone, input, onFiles) {
     zone.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); input.click(); } });
