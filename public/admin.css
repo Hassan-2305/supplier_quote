@@ -98,3 +98,24 @@ td.best { background: var(--ok-tint) !important; }
   .page-head h1 { font-size: 28px; }
   .filters select { flex: 1 1 140px; }
 }
+
+/* ---------------------------------------------------------------- admin on phones */
+@media (max-width: 700px) {
+  .topbar-inner { display: grid; grid-template-columns: 1fr auto auto; align-items: center; gap: 6px 8px; padding: 8px 12px 0; }
+  .topbar .brand-sub, .topbar .spacer { display: none; }
+  .topbar .btn-ghost { padding: 0 8px; }
+  .admin-nav { grid-column: 1 / -1; order: 5; margin: 0 -12px; padding: 0 8px 6px; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+  .admin-nav::-webkit-scrollbar { display: none; }
+  .admin-nav a { white-space: nowrap; flex: none; }
+  .page-head { gap: 12px; }
+  .page-head .actions { width: 100%; }
+  .page-head .actions .btn, .page-head .actions select { flex: 1 1 auto; }
+  .stats { gap: 10px; }
+  .stat { padding: 12px 14px; }
+  .stat strong { font-size: 24px; }
+  /* Wide tables keep readable columns and scroll sideways inside their panel. */
+  .table-scroll table.data { min-width: 760px; }
+  .detail-grid { gap: 14px; }
+  .dsec { padding: 18px 16px; }
+  .pcard { padding: 14px; }
+}

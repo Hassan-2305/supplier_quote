@@ -457,3 +457,54 @@ select { appearance: none; padding-right: 36px; cursor: pointer;
   .modal.wide { max-height: 92vh; }
   .picker-item .pi-price { display: none; }
 }
+
+/* ---------------------------------------------------------------- mobile fixes */
+/* Dialogs: never wider than the screen, whatever their content. */
+.modal-backdrop { display: flex; align-items: center; justify-content: center; }
+.modal { min-width: 0; }
+.modal.wide { overflow: hidden; }
+.picker-list { overflow-x: hidden; }
+.picker-item { min-width: 0; }
+.picker-item .pi-name { white-space: normal; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; line-height: 1.3; }
+/* Preview-all grid scrolls inside the dialog; cards keep their natural height. */
+.preview-grid { flex: 1; min-height: 0; grid-auto-rows: max-content; }
+
+@media (max-width: 720px) {
+  .modal-backdrop { padding: 12px; align-items: flex-end; }
+  .modal, .modal.wide { max-height: calc(100dvh - 24px); overflow-y: auto; border-radius: 10px; }
+  .modal.wide { overflow: hidden; display: flex; flex-direction: column; }
+  .picker-tools input { flex: 1 1 100%; }
+  .picker-tools .btn { flex: 1; }
+  .picker-foot { flex-direction: column; align-items: stretch; }
+  .picker-foot > div { display: flex; gap: 8px; }
+  .picker-foot > div .btn { flex: 1; }
+  .picker-item { padding: 10px; gap: 10px; }
+  .picker-item img, .picker-item .noimg { width: 42px; height: 42px; }
+  .modal-actions { flex-direction: column-reverse; }
+  .modal-actions .btn { width: 100%; }
+  .preview-grid { grid-template-columns: minmax(0, 1fr); }
+  .preview-grid .mk-card { max-width: 340px; width: 100%; justify-self: center; }
+
+  /* Product card heading: show the name in full (up to two lines). */
+  .product-head { flex-wrap: wrap; row-gap: 4px; padding: 10px 6px 10px 14px; }
+  .product-head .ptitle { flex: 1 1 calc(100% - 120px); white-space: normal; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; line-height: 1.3; }
+  .product-head .imported-tag { order: -1; flex-basis: 100%; width: max-content; max-width: max-content; }
+  .product-head .icon-btn { width: 38px; height: 38px; }
+
+  /* Price slabs: labelled fields instead of a table. */
+  .tiers td[data-label]::before { content: attr(data-label); display: block; font-size: 12.5px; font-weight: 600; color: var(--graphite); margin-bottom: 4px; }
+  .tiers td.col-x { align-self: end; padding-bottom: 2px; }
+
+  /* Copy-link boxes */
+  .link-copy input { flex: none; height: 44px; width: 100%; }
+  .link-copy .btn { width: 100%; }
+
+  /* Uploaded file rows: full name, type picker on its own line. */
+  .file-row .fmeta { flex: 1 1 calc(100% - 110px); }
+  .file-row .fname { white-space: normal; word-break: break-word; }
+  .file-row select { flex: 1 1 auto; order: 3; }
+  .file-row .icon-btn { order: 2; }
+
+  .autofill-result .products-found .btn { width: 100%; }
+  .ref dd { font-size: 21px; }
+}

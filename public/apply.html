@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/styles.css?v=6">
+  <link rel="stylesheet" href="/styles.css?v=7">
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -280,17 +280,17 @@
 </template>
 <template id="tierTpl">
   <tr>
-    <td><input type="text" inputmode="numeric" data-t="min_qty" placeholder="5000"></td>
-    <td><input type="text" inputmode="numeric" data-t="max_qty" placeholder="and above"></td>
-    <td><input type="text" inputmode="decimal" data-t="unit_price" placeholder="0.00"></td>
+    <td data-label="From qty"><input type="text" inputmode="numeric" data-t="min_qty" placeholder="5000"></td>
+    <td data-label="To qty"><input type="text" inputmode="numeric" data-t="max_qty" placeholder="and above"></td>
+    <td data-label="Unit price"><input type="text" inputmode="decimal" data-t="unit_price" placeholder="0.00"></td>
     <td class="col-x"><button type="button" class="icon-btn danger" data-act="remove-tier" title="Remove slab"><svg class="i"><use href="#i-x"/></svg></button></td>
   </tr>
 </template>
 <datalist id="countryList"></datalist>
 <datalist id="unitList"><option value="piece"></option><option value="pack of 100"></option><option value="set"></option><option value="kg"></option><option value="roll"></option><option value="sheet"></option><option value="carton"></option></datalist>
 
-<script src="/common.js?v=6"></script>
-<script src="/guess.js?v=6"></script>
-<script src="/apply.js?v=6"></script>
+<script src="/common.js?v=7"></script>
+<script src="/guess.js?v=7"></script>
+<script src="/apply.js?v=7"></script>
 </body>
 </html>
