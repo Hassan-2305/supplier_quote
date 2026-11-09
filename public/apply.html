@@ -2,14 +2,15 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="referrer" content="no-referrer">
   <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#E9ECEF">
   <title>Packaging Supplier Portal</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/styles.css?v=4">
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css?v=6">
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -20,7 +21,6 @@
   <symbol id="i-chev" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
   <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 16V4M7 9l5-5 5 5M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></symbol>
   <symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></symbol>
-  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
   <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
   <symbol id="i-save" viewBox="0 0 24 24"><path d="M5 3h11l5 5v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M7 3v6h8M7 21v-7h10v7"/></symbol>
   <symbol id="i-dup" viewBox="0 0 24 24"><rect x="8" y="8" width="13" height="13" rx="2"/><path d="M4 16V5a1 1 0 0 1 1-1h11"/></symbol>
@@ -29,157 +29,145 @@
   <symbol id="i-sheet" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18"/></symbol>
   <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v12M7 11l5 5 5-5M4 20h16"/></symbol>
   <symbol id="i-layers" viewBox="0 0 24 24"><path d="m12 3 9 5-9 5-9-5z"/><path d="m3 13 9 5 9-5"/></symbol>
-  <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></symbol>
   <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></symbol>
-  <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6"/></symbol>
+  <symbol id="i-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
+  <symbol id="i-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
 </svg>
 
 <header class="topbar">
   <div class="topbar-inner">
     <a class="brand" href="#top" aria-label="Back to top">
-      <span class="brand-mark" data-brand-initial>A</span>
+      <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M4 9h24v18H4z" fill="none" stroke="currentColor" stroke-width="2"/><path d="M4 9l4-5h16l4 5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M16 4v5" stroke="var(--cut)" stroke-width="2" stroke-dasharray="2 2"/></svg>
       <span class="brand-name" data-brand-name>Aekobaba</span>
       <span class="brand-sub" data-brand-tagline>Packaging Supplier Portal</span>
     </a>
     <div class="spacer"></div>
     <span class="save-state" id="saveState"></span>
-    <button class="btn btn-sm" type="button" id="saveDraftTop"><svg class="i"><use href="#i-save"/></svg>Save &amp; finish later</button>
+    <button class="btn btn-sm btn-quiet" type="button" id="saveDraftTop"><svg class="i"><use href="#i-save"/></svg>Save and finish later</button>
   </div>
+  <div class="topbar-progress" aria-hidden="true"><span id="progressBar"></span></div>
 </header>
 
 <main id="formView">
   <section class="hero" id="top">
-    <div class="eyebrow">For packaging suppliers</div>
-    <h1>Get your packaging in front of brands.</h1>
-    <p class="lead">Tell us what you make and what it costs. We list your products on <strong data-brand-name>Aekobaba</strong>, where brands send quote requests, and we bring those enquiries to you.</p>
-    <div class="hero-meta">
-      <span class="chip"><svg class="i"><use href="#i-clock"/></svg>About 5 minutes</span>
-      <span class="chip"><svg class="i"><use href="#i-file"/></svg>Have a price list? Just upload it</span>
-      <span class="chip"><svg class="i"><use href="#i-save"/></svg>No account needed</span>
-    </div>
+    <h1>Get your packaging listed on <span data-brand-name>Aekobaba</span></h1>
+    <p class="lead">Brands use <span data-brand-name>Aekobaba</span> to find packaging and request quotes. Fill in this form once and we send you the requests that match your products.</p>
+    <p class="hero-note">Takes about 5 minutes. No account needed. You can save a draft and come back later.</p>
   </section>
 
   <div class="notice" id="notice" hidden><div></div></div>
 
   <div class="layout">
-    <nav class="sidenav" aria-label="Form sections">
+    <nav class="sidenav" aria-label="Form steps">
       <ol>
         <li><a href="#sec-company" data-sec="company"><span class="dot">1</span>Your company</a></li>
-        <li><a href="#sec-products" data-sec="products"><span class="dot">2</span>Products &amp; prices</a></li>
-        <li><a href="#sec-documents" data-sec="documents"><span class="dot">3</span>Catalogue / price list</a></li>
+        <li><a href="#sec-products" data-sec="products"><span class="dot">2</span>Products and prices</a></li>
+        <li><a href="#sec-documents" data-sec="documents"><span class="dot">3</span>Catalogue and price list</a></li>
         <li><a href="#sec-notes" data-sec="notes"><span class="dot">4</span>Anything else</a></li>
-        <li><a href="#sec-submit" data-sec="submit"><span class="dot">&#10003;</span>Submit</a></li>
+        <li><a href="#sec-submit" data-sec="submit"><span class="dot"><svg class="i"><use href="#i-check"/></svg></span>Submit</a></li>
       </ol>
-      <div class="progress"><span id="progressText">0 of 4 steps done</span><div class="bar"><span id="progressBar"></span></div></div>
+      <div class="progress"><span id="progressText">0 of 4 steps done</span><div class="bar"><span id="progressBarSide"></span></div></div>
     </nav>
 
     <form id="supplierForm" novalidate autocomplete="on">
+    <!-- Website auto-fill -->
+    <div class="autofill" id="sec-autofill">
+      <label for="siteUrl" class="autofill-label">Start with your website</label>
+      <p class="autofill-help">We fill in your company details. If your site lists products, we can import them with photos and prices.</p>
+      <div class="autofill-row">
+        <span class="autofill-icon"><svg class="i"><use href="#i-globe"/></svg></span>
+        <input type="text" id="siteUrl" inputmode="url" placeholder="www.yourcompany.com" autocomplete="url">
+        <button type="button" class="btn btn-primary" id="siteFetch">Fetch my details</button>
+      </div>
+      <div class="autofill-result" id="siteResult" hidden></div>
+    </div>
 
-      <!-- Website auto-fill -->
-      <section class="autofill-card" id="sec-autofill">
-        <div class="autofill-head">
-          <span class="autofill-icon"><svg class="i"><use href="#i-spark"/></svg></span>
-          <div>
-            <h2>Start with your website</h2>
-            <p>We'll fill in your company details for you. If you sell online (Shopify, WooCommerce), we can import your products, prices and photos too.</p>
-          </div>
-        </div>
-        <div class="autofill-row">
-          <label for="siteUrl" class="visually-hidden">Your website</label>
-          <input type="text" id="siteUrl" inputmode="url" placeholder="www.yourcompany.com" autocomplete="url">
-          <button type="button" class="btn btn-primary" id="siteFetch">Fetch my details</button>
-        </div>
-        <div class="autofill-result" id="siteResult" hidden></div>
-      </section>
 
-      <!-- 01 Company -->
       <section class="section" id="sec-company">
-        <div class="section-head">
-          <div class="section-num">01</div>
-          <div><h2>Your company <span class="tag">Required</span></h2><p>Who you are and how our team can reach you.</p></div>
-        </div>
+        <header class="section-head">
+          <h2><span class="step">1</span>Your company</h2>
+          <p>Who you are and how our team can reach you.</p>
+        </header>
         <div class="grid">
           <div class="field span-2"><label for="f-bn">Company name<span class="req">*</span></label><input id="f-bn" type="text" name="company.business_name" autocomplete="organization"></div>
           <div class="field"><label for="f-cp">Contact name<span class="req">*</span></label><input id="f-cp" type="text" name="company.contact_person" autocomplete="name"></div>
-          <div class="field"><label for="f-ph">Phone / WhatsApp / WeChat<span class="req">*</span></label><input id="f-ph" type="tel" name="company.phone" autocomplete="tel" placeholder="+1 555 123 4567 / +86 138 0000 0000"></div>
+          <div class="field"><label for="f-ph">Phone, WhatsApp or WeChat<span class="req">*</span></label><input id="f-ph" type="tel" name="company.phone" autocomplete="tel" placeholder="+1 555 123 4567"></div>
           <div class="field"><label for="f-em">Email<span class="req">*</span></label><input id="f-em" type="email" name="company.email" autocomplete="email"></div>
           <div class="field"><label for="f-cty">Country<span class="req">*</span></label><input id="f-cty" type="text" name="company.country" list="countryList" autocomplete="country-name" placeholder="Choose or type"></div>
-          <div class="field"><label for="f-lo">City / State / Province<span class="req">*</span></label><input id="f-lo" type="text" name="company.location" placeholder="e.g. Ningbo, Zhejiang / Chicago, IL" autocomplete="address-level2"></div>
+          <div class="field"><label for="f-lo">City and state or province<span class="req">*</span></label><input id="f-lo" type="text" name="company.location" placeholder="Ningbo, Zhejiang" autocomplete="address-level2"></div>
           <div class="field"><label for="f-web">Website</label><input id="f-web" type="url" name="company.website" placeholder="www.yourcompany.com" autocomplete="url"></div>
-          <div class="field"><label for="f-ln">Registered company name</label><input id="f-ln" type="text" name="company.legal_name" placeholder="If different from company name"></div>
-          <div class="field span-2"><span class="label">Certifications <span class="hint" style="font-weight:400">(tick any you hold)</span></span>
+          <div class="field span-2"><label for="f-ln">Registered company name</label><input id="f-ln" type="text" name="company.legal_name" placeholder="Only if it differs from the name above"></div>
+          <div class="field span-2"><span class="label">Certifications you hold</span>
             <div class="checks" id="certList"></div>
           </div>
-          <div class="field span-2"><label for="f-co">Other certifications</label><input id="f-co" type="text" name="company.certifications_other" placeholder="e.g. FDA registered, LFGB, EU 10/2011"></div>
+          <div class="field span-2"><label for="f-co">Other certifications</label><input id="f-co" type="text" name="company.certifications_other" placeholder="FDA registered, LFGB, EU 10/2011"></div>
         </div>
       </section>
 
-      <!-- 02 Products -->
       <section class="section" id="sec-products">
-        <div class="section-head">
-          <div class="section-num">02</div>
-          <div><h2>Products &amp; prices <span class="tag">Required</span></h2>
-            <p>Add the products you want listed. Only <strong>name, category, material and price</strong> are required. If you have many products, upload your price list in step 3 and add just your best sellers here.</p></div>
-        </div>
-        <div class="grid" style="margin-bottom:20px">
+        <header class="section-head">
+          <h2><span class="step">2</span>Products and prices</h2>
+          <p>Each product needs a name, category, material and price. Everything else helps buyers but can be left blank.</p>
+        </header>
+        <div class="grid pricing-basis">
           <div class="field"><label for="f-cur">Prices are in</label><select id="f-cur" name="pricing.currency" data-options="currencies"></select></div>
           <div class="field"><label for="f-terms">Price terms</label><select id="f-terms" name="pricing.terms" data-terms></select></div>
-          <div class="field" data-port hidden><label for="f-port">Port / ship-from city</label><input id="f-port" type="text" name="pricing.port" placeholder="e.g. Ningbo, Shenzhen, Shanghai"></div>
+          <div class="field" data-port hidden><label for="f-port">Port or ship-from city</label><input id="f-port" type="text" name="pricing.port" placeholder="Ningbo, Shenzhen, Shanghai"></div>
         </div>
         <div class="product-tools">
-          <button type="button" class="btn btn-sm" id="sheetBtn"><svg class="i"><use href="#i-sheet"/></svg>Upload spreadsheet</button>
-          <input type="file" id="sheetInput" accept=".xlsx,.xlsm,.csv" hidden>
-          <a class="btn btn-sm btn-ghost" href="/api/sheet-template.xlsx" download><svg class="i"><use href="#i-download"/></svg>Download template</a>
-          <span class="spacer"></span>
-          <button type="button" class="btn btn-sm btn-ghost" id="applyAllBtn"><svg class="i"><use href="#i-layers"/></svg>Apply to all</button>
-          <button type="button" class="btn btn-sm btn-ghost" id="previewAllBtn"><svg class="i"><use href="#i-eye"/></svg>Preview listings</button>
+          <div class="tools-import">
+            <button type="button" class="btn btn-sm" id="sheetBtn"><svg class="i"><use href="#i-sheet"/></svg>Upload spreadsheet</button>
+            <input type="file" id="sheetInput" accept=".xlsx,.xlsm,.csv" hidden>
+            <a class="link-quiet" href="/api/sheet-template.xlsx" download>Download our template</a>
+          </div>
+          <div class="tools-bulk">
+            <button type="button" class="btn btn-sm btn-quiet" id="applyAllBtn"><svg class="i"><use href="#i-layers"/></svg>Apply to all</button>
+            <button type="button" class="btn btn-sm btn-quiet" id="previewAllBtn"><svg class="i"><use href="#i-eye"/></svg>Preview all</button>
+          </div>
         </div>
-        <p class="hint" style="margin:-6px 0 16px">Have a price list in Excel? Upload it and we’ll match the columns and turn each row into a product.</p>
+        <p class="hint tools-hint">Have a price list in Excel or CSV? Upload it and we match your columns, so each row becomes a product.</p>
         <div class="form-error section-error" id="productsError" hidden></div>
         <div class="products" id="productList"></div>
-        <button type="button" class="btn btn-dashed" id="addProduct" style="margin-top:16px"><svg class="i"><use href="#i-plus"/></svg>Add another product</button>
+        <button type="button" class="btn btn-add" id="addProduct"><svg class="i"><use href="#i-plus"/></svg>Add another product</button>
       </section>
 
-      <!-- 03 Documents -->
       <section class="section" id="sec-documents">
-        <div class="section-head">
-          <div class="section-num">03</div>
-          <div><h2>Catalogue &amp; price list <span class="tag optional">Optional</span></h2>
-            <p>Upload your catalogue, price list (Excel or PDF) or certificates. We'll use them to add the rest of your range.</p></div>
-        </div>
+        <header class="section-head">
+          <h2><span class="step">3</span>Catalogue and price list <span class="opt">Optional</span></h2>
+          <p>Upload your catalogue, price list or certificates. We use them to add the rest of your range.</p>
+        </header>
         <label class="dropzone" id="docDrop" tabindex="0">
           <input type="file" id="docInput" multiple hidden>
           <span class="dz-icon"><svg class="i"><use href="#i-upload"/></svg></span>
-          <strong>Drag &amp; drop files here, or click to browse</strong>
-          <small id="docHint">PDF, Excel, Word, images &middot; up to 25 MB each</small>
+          <strong>Drop files here or choose from your device</strong>
+          <small id="docHint">PDF, Excel, Word or images, up to 25 MB each</small>
         </label>
         <div class="file-list" id="docList"></div>
       </section>
 
-      <!-- 04 Notes -->
       <section class="section" id="sec-notes">
-        <div class="section-head">
-          <div class="section-num">04</div>
-          <div><h2>Anything else? <span class="tag optional">Optional</span></h2><p>Other products you can make, offers, or anything we should know.</p></div>
-        </div>
+        <header class="section-head">
+          <h2><span class="step">4</span>Anything else <span class="opt">Optional</span></h2>
+          <p>Other products you can make, current offers, or anything our team should know.</p>
+        </header>
         <div class="field"><label for="f-notes" class="visually-hidden">Notes</label><textarea id="f-notes" name="notes" rows="4"></textarea></div>
       </section>
 
-      <!-- Submit -->
       <section class="submit-card" id="sec-submit">
-        <h2 id="submitTitle">Ready to submit?</h2>
-        <p id="submitText">You'll get a reference ID and a private link to update your products and prices any time.</p>
+        <h2 id="submitTitle">Submit your products</h2>
+        <p id="submitText">You get a reference ID and a private link to update your products and prices at any time.</p>
         <label class="consent" id="consentBox">
           <input type="checkbox" name="consent" id="consent">
-          <span>The details are accurate, and I agree that <span data-brand-name>Aekobaba</span> may list these products and prices on its marketplace. I understand buyers will send enquiries through <span data-brand-name>Aekobaba</span>.</span>
+          <span>These details are accurate. <span data-brand-name>Aekobaba</span> may list these products and prices, and send me buyer enquiries for them.</span>
         </label>
         <div class="form-error" id="formError" hidden></div>
         <div class="submit-actions">
           <button type="submit" class="btn btn-primary btn-lg" id="submitBtn">Submit products</button>
-          <button type="button" class="btn btn-ghost" id="saveDraftBottom"><svg class="i"><use href="#i-save"/></svg>Save draft</button>
+          <button type="button" class="btn btn-quiet" id="saveDraftBottom"><svg class="i"><use href="#i-save"/></svg>Save draft</button>
         </div>
       </section>
     </form>
+
   </div>
 
   <div class="mobile-bar">
@@ -190,26 +178,25 @@
 </main>
 
 <main id="successView" class="success" hidden>
-  <div class="success-card">
-    <div class="success-icon"><svg class="i"><use href="#i-check"/></svg></div>
-    <h1 id="successTitle">Thank you, we've got your products</h1>
-    <p style="color:var(--ink-2)" id="successText">Our team will review your details and get in touch before your listing goes live.</p>
-    <div class="ref-box"><small>Supplier reference ID</small><strong id="successRef"></strong></div>
-    <div style="text-align:left">
-      <label class="field"><span class="label">Your private edit link</span>
-        <span class="hint">Bookmark this to update products or prices later. Anyone with this link can edit your submission, so keep it safe.</span>
-      </label>
-      <div class="link-copy"><input type="text" readonly id="successLink"><button class="btn" type="button" data-copy="#successLink"><svg class="i"><use href="#i-copy"/></svg>Copy</button></div>
+  <div class="success-sheet">
+    <svg class="success-mark" viewBox="0 0 64 64" aria-hidden="true"><rect x="4" y="4" width="56" height="56" rx="4" class="sm-cut"/><path d="M4 22h56" class="sm-fold"/><path d="m22 39 7 7 14-15" class="sm-check"/></svg>
+    <h1 id="successTitle">Your products are in</h1>
+    <p class="lead" id="successText">Our team reviews every submission before it goes live on <span data-brand-name>Aekobaba</span>. We'll contact you if anything needs checking.</p>
+    <dl class="ref">
+      <dt>Your reference</dt>
+      <dd id="successRef"></dd>
+    </dl>
+    <div class="field">
+      <label for="successLink">Private edit link</label>
+      <div class="link-copy"><input type="text" readonly id="successLink"><button class="btn" type="button" data-copy="#successLink"><svg class="i"><use href="#i-copy"/></svg>Copy link</button></div>
+      <span class="hint">Use this link to change products or prices later. Anyone with it can edit your submission, so keep it private.</span>
     </div>
-    <div class="next-steps">
-      <strong>What happens next</strong>
-      <ol>
-        <li>We review your products and prices, and may call to confirm details.</li>
-        <li>Your products are listed on <span data-brand-name>Aekobaba</span>.</li>
-        <li>When brands request quotes or samples, we bring the enquiry to you.</li>
-      </ol>
-    </div>
-    <div style="margin-top:24px"><a class="btn" id="successEdit" href="#">Review or edit my submission</a></div>
+    <ol class="next-steps">
+      <li><strong>Review.</strong> We check your products and prices.</li>
+      <li><strong>Listing.</strong> Your products go live on <span data-brand-name>Aekobaba</span>.</li>
+      <li><strong>Enquiries.</strong> When a brand asks for a quote or sample, we pass it to you.</li>
+    </ol>
+    <a class="btn" id="successEdit" href="#">Review my submission</a>
   </div>
 </main>
 
@@ -284,9 +271,8 @@
       <div class="thumbs" data-thumbs></div>
       </div>
       <aside class="pb-preview">
-        <div class="preview-label"><svg class="i"><use href="#i-eye"/></svg>Preview on <span data-brand-name>Aekobaba</span></div>
+        <div class="preview-label"><svg class="i"><use href="#i-eye"/></svg>How buyers will see it</div>
         <div data-preview></div>
-        <p class="preview-hint">Updates as you type. Buyers see this card in search results.</p>
       </aside>
      </div>
     </div>
@@ -303,8 +289,8 @@
 <datalist id="countryList"></datalist>
 <datalist id="unitList"><option value="piece"></option><option value="pack of 100"></option><option value="set"></option><option value="kg"></option><option value="roll"></option><option value="sheet"></option><option value="carton"></option></datalist>
 
-<script src="/common.js?v=4"></script>
-<script src="/guess.js?v=4"></script>
-<script src="/apply.js?v=4"></script>
+<script src="/common.js?v=6"></script>
+<script src="/guess.js?v=6"></script>
+<script src="/apply.js?v=6"></script>
 </body>
 </html>

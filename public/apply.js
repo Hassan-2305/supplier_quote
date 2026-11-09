@@ -203,7 +203,7 @@
     const moq = $('[data-p="moq"]', card).value.trim();
     if (moq) parts.push(`MOQ ${moq}`);
     if (card._images.length) parts.push(`${card._images.length} photo${card._images.length > 1 ? 's' : ''}`);
-    $('[data-summary]', card).textContent = parts.join(' · ');
+    $('[data-summary]', card).textContent = parts.join(', ');
     updatePreview(card);
   }
 
@@ -211,6 +211,7 @@
     const cards = $$('.product-card', productList);
     cards.forEach((c, i) => { $('[data-num]', c).textContent = i + 1; });
     $$('.product-card [data-act="remove"]', productList).forEach((b) => { b.hidden = cards.length === 1; });
+    renderProof();
   }
 
   function addProduct(p = {}, { collapseOthers = false, focus = false } = {}) {
@@ -342,6 +343,7 @@
     }
     $('#progressText').textContent = `${n} of 4 steps done`;
     $('#progressBar').style.width = `${(n / 4) * 100}%`;
+    $('#progressBarSide').style.width = `${(n / 4) * 100}%`;
   }
   const autosave = debounce(() => {
     if (state.mode === 'edit') return;
@@ -467,7 +469,7 @@
       history.replaceState(null, '', `/e/${res.edit_token}`);
       if (res.status === 'submitted') showSuccess(res, wasSubmitted);
       else {
-        $('#saveState').textContent = `Draft saved · ${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+        $('#saveState').textContent = `Draft saved at ${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
         applyModeUi();
         linkModal(res.edit_url);
       }
@@ -486,6 +488,7 @@
     $('#saveDraftTop').hidden = true;
     $('#saveState').textContent = '';
     $('#successView').hidden = false;
+    $('#progressBar').style.width = '100%';
     $('#successRef').textContent = res.ref_id;
     $('#successLink').value = res.edit_url;
     $('#successEdit').href = `/e/${res.edit_token}`;
@@ -578,11 +581,13 @@
     const img = (card._images || []).find((i) => !i.error && (i.preview || i.id));
     return img ? img.preview || fileUrl(img.id) : '';
   }
+  // Each product card shows its own marketplace preview.
   function updatePreview(card) {
     const box = $('[data-preview]', card);
     if (box) box.innerHTML = previewHtml(collectProduct(card), cardImage(card));
   }
-  const refreshAllPreviews = debounce(() => $$('.product-card', productList).forEach(updatePreview), 200);
+  function renderProof() {}
+  const refreshAllPreviews = debounce(() => $$('.product-card', productList).forEach(updatePreview), 150);
 
   function previewAll() {
     const cards = $$('.product-card', productList).filter((c) => productHasContent(collectProduct(c)));
@@ -732,7 +737,7 @@
           <input type="checkbox" data-i="${p.i}"${chosen.has(p.i) ? ' checked' : ''}>
           ${p.images[0] ? `<img loading="lazy" referrerpolicy="no-referrer" src="${esc(p.images[0])}" alt="">` : '<span class="noimg"></span>'}
           <span class="pi-main"><div class="pi-name" title="${esc(p.name)}">${esc(p.name)}</div>
-            <div class="pi-meta">${esc([catName(p.category), p.material, p.capacity || p.dimensions].filter(Boolean).join(' · '))}</div></span>
+            <div class="pi-meta">${esc([catName(p.category), p.material, p.capacity || p.dimensions].filter(Boolean).join(', '))}</div></span>
           <span class="pi-price">${p.price != null ? `${p.price_type === 'FROM' ? 'from ' : ''}${esc(cur || p.currency || '')} ${esc(p.price)}` : 'No price'}</span>
         </label>`).join('') || '<div class="empty" style="padding:30px;text-align:center;color:var(--ink-3)">No products match.</div>';
     };
@@ -924,7 +929,7 @@
       const room = Math.max(0, 200 - $$('.product-card', productList).filter((c) => productHasContent(collectProduct(c))).length);
       $('[data-preview-rows]', w).innerHTML = m.name == null ? '<p class="err">Choose which column has the product name.</p>'
         : `<table class="data" style="width:100%;font-size:13px;border-collapse:collapse">${products.slice(0, 5).map((p) =>
-          `<tr><td style="padding:6px 8px;border-bottom:1px solid var(--line)"><strong>${esc(p.name)}</strong><div class="hint">${esc([catName(p.category), p.material, p.capacity || p.dimensions].filter(Boolean).join(' · '))}</div></td>
+          `<tr><td style="padding:6px 8px;border-bottom:1px solid var(--line)"><strong>${esc(p.name)}</strong><div class="hint">${esc([catName(p.category), p.material, p.capacity || p.dimensions].filter(Boolean).join(', '))}</div></td>
            <td style="padding:6px 8px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap">${p.price ? esc(money(toNum(p.price), currency())) : '<span class="hint">no price</span>'}${p.tiers.length ? `<div class="hint">${p.tiers.length} bulk prices</div>` : ''}</td></tr>`).join('')}</table>
            ${products.length > 5 ? `<p class="hint">…and ${products.length - 5} more.</p>` : ''}`;
       const n = Math.min(products.length, room);
@@ -1040,7 +1045,7 @@
     try { state.cfg = await api('/api/config'); }
     catch (e) { document.body.innerHTML = `<p style="padding:40px;text-align:center">${esc(e.message)}</p>`; return; }
     const { cfg } = state;
-    document.title = `Supplier Portal · ${cfg.brand.name}`;
+    document.title = `${cfg.brand.name} supplier portal`;
     $$('[data-brand-name]').forEach((el) => { el.textContent = cfg.brand.name; });
     $$('[data-brand-initial]').forEach((el) => { el.textContent = cfg.brand.name.charAt(0); });
     $$('[data-brand-tagline]').forEach((el) => { el.textContent = cfg.brand.tagline; });
